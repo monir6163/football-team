@@ -1,4 +1,10 @@
 document.getElementById('not-found').style.display = 'none';
+const teamElement = document.getElementById('sports-team');
+const loader = `<div class="text-center">
+                    <div class="spinner-border text-white" role="status" id = "load">
+                        <span class="visually-hidden">Loading...</span>
+                    </div>
+                </div>`;
 const loadSports = async () => {
     const searchField = document.getElementById('search-team');
     const searchResult = searchField.value;
@@ -12,6 +18,7 @@ const loadSports = async () => {
 </div>`;
     }
     else{
+        teamElement.innerHTML = loader;
         const url = `https://www.thesportsdb.com/api/v1/json/1/searchteams.php?t=${searchResult}`;
         // fetch(url)
         // .then(res => res.json())
@@ -23,6 +30,7 @@ const loadSports = async () => {
             displayTeam(data);
         }
         catch{
+            teamElement.innerHTML = loader;
             document.getElementById('not-found').style.display = 'block';
             const message = document.getElementById('not-found');
             message.innerHTML = `<div class=" w-100 mx-auto alert alert-danger alert-dismissible fade show" role="alert">
@@ -30,8 +38,8 @@ const loadSports = async () => {
         <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
         </div>`;
         }
+        document.getElementById('load').style.display = "none";
     }
-    
 }
 // const displayerror = error => {
 //     document.getElementById('not-found').style.display = 'block';
@@ -44,6 +52,7 @@ const loadSports = async () => {
 const displayTeam = teams => {
     const showTeam = teams.teams;
     const teamElement = document.getElementById('sports-team');
+    teamElement.innerHTML = loader;
     teamElement.textContent = "";
     for(const teams of showTeam){
         const div = document.createElement('div');
